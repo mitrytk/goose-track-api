@@ -38,7 +38,7 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   const { taskId } = req.params;
-  const task = Task.findByIdAndRemove(taskId);
+  const task = await Task.findByIdAndRemove(taskId);
   if (!task) {
     throw new HttpError(404, "Task not found!");
   }

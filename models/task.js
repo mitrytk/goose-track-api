@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+const date = new Date()
 const taskSchema = new mongoose.Schema(
   {
     title: {
@@ -8,9 +9,11 @@ const taskSchema = new mongoose.Schema(
     },
     start: {
       type: String,
+      default: `${date.getHours().toString()}:${date.getMinutes().toString()}`,
     },
     end: {
       type: String,
+      default: `${(date.getHours()+1).toString()}:${date.getMinutes().toString()}`,
     },
     priority: {
       type: String,
