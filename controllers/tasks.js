@@ -3,7 +3,7 @@ const { HttpError, ctrlWrapper } = require("../helpers/index");
 
 const getTasks = async (req, res) => {
   const tasks = await Task.find();
-// const { _id: owner } = req.user;    
+const { _id: owner } = req.user;
   res.status(200).json(tasks);
 };
 
@@ -17,10 +17,10 @@ const getTask = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
-//   const { _id: owner } = req.user;
+  const { _id: owner } = req.user;
     const newTask = await Task.create({
         ...req.body,
-        // owner
+        owner
     });
 
   res.status(201).json(newTask);
