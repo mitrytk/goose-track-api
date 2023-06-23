@@ -24,6 +24,18 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    birthday: {
+      type: Date,
+      default: "0000-01-01",
+    },
+    phone: {
+      type: Number,
+      default: 0,
+    },
+    skype: {
+      type: String,
+      default: "",
+    },
   },
   { versionKey: false, timestamps: true }
 );
