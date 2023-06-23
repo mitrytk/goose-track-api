@@ -30,6 +30,9 @@ const register = async (req, res) => {
     user: {
       email: newUser.email,
       name: newUser.name,
+      birthday: newUser.birthday,
+      phone: newUser.phone,
+      skype: newUser.skype,
     },
   });
 };
@@ -59,16 +62,22 @@ const login = async (req, res) => {
     user: {
       email: user.email,
       name: user.name,
+      birthday: user.birthday,
+      phone: user.phone,
+      skype: user.skype,
     },
   });
 };
 
 const getCurrent = async (req, res) => {
-  const { email, name } = req.user;
+  const { email, name, birthday, phone, skype } = req.user;
 
   res.json({
     email,
     name,
+    birthday,
+    phone,
+    skype,
   });
 };
 
