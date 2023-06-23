@@ -12,8 +12,10 @@ const { volidateBody } = require("../../middlewares/volidateBody");
 
 const router = express.Router();
 
-router.route('/').get(getTasks).post(volidateBody(addTaskSchema), createTask)
+router.use(authenticate)
 
+router.route('/').get(getTasks).post(volidateBody(addTaskSchema), createTask)
+const { volidateBody, authenticate } = require("../../middlewares/index");
 router
   .route(`/:taskId`)
   .get(getTask)
