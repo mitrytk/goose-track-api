@@ -3,6 +3,7 @@
 Base URL: https://goose-track-api-l50t.onrender.com
 
 (USERS) Работа с пользователем:
+
           - SIGN UP:
           
                   POST /api/auth/register 
@@ -17,9 +18,13 @@ Base URL: https://goose-track-api-l50t.onrender.com
                       "token",
                       "user": {
                           "email",
-                          "name"
+                          "name",
+                          "birthday": "0000-01-01T00:00:00.000Z" - default при создании (не указано пользователем),
+                          "phone": 0 - default при создании (не указано пользователем),
+                          "skype",
                       }
                   }
+                  
           - LOGIN:
           
                   POST /api/auth/login
@@ -33,9 +38,13 @@ Base URL: https://goose-track-api-l50t.onrender.com
                       "token",
                       "user": {
                           "email",
-                          "name"
+                          "name",
+                          "birthday": "0000-01-01T00:00:00.000Z" - default при создании (не указано пользователем),
+                          "phone": 0 - default при создании (не указано пользователем),
+                          "skype",
                       }
                   }
+                  
           - LOG OUT:
           
                   POST /api/auth/logout
@@ -45,6 +54,7 @@ Base URL: https://goose-track-api-l50t.onrender.com
                   {
                       "message": "Logout success"
                   }
+                  
           - CURRENT:
           
                   GET /api/auth/current
@@ -53,7 +63,10 @@ Base URL: https://goose-track-api-l50t.onrender.com
                   res:
                   {
                       "email",
-                      "name"
+                      "name",
+                      "birthday",
+                      "phone",
+                      "skype",
                   }
                   
   
