@@ -1,8 +1,9 @@
-const { addUserSchema } = require("./users");
-const {addTaskSchema, updateTaskSchema} = require('./tasks')
+const { registerSchema, loginShema } = require("./users");
+const { addTaskSchema, updateTaskSchema } = require("./tasks");
 
 module.exports = {
-  addUserSchema,
+  registerSchema,
+  loginShema,
   addTaskSchema,
-  updateTaskSchema
+  updateTaskSchema,
 };
