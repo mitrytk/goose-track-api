@@ -2,12 +2,14 @@ const Joi = require("joi");
 
 const timePattern = /^([0-9]{2}):([0-9]{2})$/;
 
+const day = 86400000;
+
 const addTaskSchema = Joi.object({
   title: Joi.string().max(250).required(),
   start: Joi.string().regex(timePattern),
   end: Joi.string().regex(timePattern),
   priority: Joi.string().valid(...["low", "medium", "high"]),
-  date: Joi.date().min(new Date()).required(),
+  date: Joi.date().min(new Date() - day),
   category: Joi.string().valid(...["toDo", "inProgress", "done"]),
 })
   .custom((value, helpers) => {

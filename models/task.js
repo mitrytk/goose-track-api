@@ -20,17 +20,16 @@ const taskSchema = new mongoose.Schema(
       enum: ["low", "medium", "high"],
       default: "low",
       trim: true,
-      required: true,
     },
     date: {
       type: Date,
+      default: new Date(),
     },
     category: {
       type: String,
       enum: ["toDo", "inProgress", "done"],
       default: "toDo",
       trim: true,
-      required: true,
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
