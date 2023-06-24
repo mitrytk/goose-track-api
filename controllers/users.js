@@ -33,6 +33,7 @@ const register = async (req, res) => {
       birthday: newUser.birthday,
       phone: newUser.phone,
       skype: newUser.skype,
+      avatarURL: newUser.avatarURL,
     },
   });
 };
@@ -65,12 +66,13 @@ const login = async (req, res) => {
       birthday: user.birthday,
       phone: user.phone,
       skype: user.skype,
+      avatarURL: user.avatarURL,
     },
   });
 };
 
 const getCurrent = async (req, res) => {
-  const { email, name, birthday, phone, skype } = req.user;
+  const { email, name, birthday, phone, skype, avatarURL } = req.user;
 
   res.json({
     email,
@@ -78,6 +80,7 @@ const getCurrent = async (req, res) => {
     birthday,
     phone,
     skype,
+    avatarURL,
   });
 };
 
@@ -90,9 +93,25 @@ const logout = async (req, res) => {
   });
 };
 
+const update = async (req, res) => {
+  const avatarURL = req.file.path;
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { avatarURL, ...req.body });
+  const user = await User.findById(_id);
+  res.json({
+    email: user.email,
+    name: user.name,
+    birthday: user.birthday,
+    phone: user.phone,
+    skype: user.skype,
+    avatarURL: user.avatarURL,
+  });
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
+  update: ctrlWrapper(update),
 };
