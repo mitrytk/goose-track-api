@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const taskRouter = require("./routes/api/tasks.js");
 const authRouter = require("./routes/api/auth.js");
+const statisticsRouter = require("./routes/api/statistics.js");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 // Routers
 app.use("/api/auth", authRouter);
 app.use("/api/tasks", taskRouter);
+app.use("/api/statistics", statisticsRouter);
 
 //
 
