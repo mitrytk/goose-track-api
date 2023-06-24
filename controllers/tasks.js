@@ -2,8 +2,8 @@ const { Task } = require("../models/task");
 const { HttpError, ctrlWrapper } = require("../helpers/index");
 
 const getTasks = async (req, res) => {
-  const tasks = await Task.find();
-const { _id: owner } = req.user;
+  const { _id: owner } = req.user;
+  const tasks = await Task.find({owner});
   res.status(200).json(tasks);
 };
 
