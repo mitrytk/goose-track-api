@@ -1,5 +1,6 @@
 const { registerSchema, loginShema, updateShema } = require("./users");
 const { addTaskSchema, updateTaskSchema } = require("./tasks");
+const { statisticsSchema } = require("./statistics");
 
 module.exports = {
   registerSchema,
@@ -7,4 +8,5 @@ module.exports = {
   updateShema,
   addTaskSchema,
   updateTaskSchema,
+  statisticsSchema,
 };
