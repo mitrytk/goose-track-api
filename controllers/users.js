@@ -94,9 +94,24 @@ const logout = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const avatarURL = req.file.path;
   const { _id } = req.user;
-  await User.findByIdAndUpdate(_id, { avatarURL, ...req.body });
+  if (req.body.birthday) {
+    const currentDate = new Date();
+    const birthdayDate = new Date(req.body.birthday);
+    if (birthdayDate >= currentDate) {
+      throw HttpError(
+        400,
+        "Birthday must not match or be less than the current date"
+      );
+    }
+  }
+
+  if (req.file) {
+    const avatarURL = req.file.path;
+    await User.findByIdAndUpdate(_id, { avatarURL, ...req.body });
+  }
+
+  await User.findByIdAndUpdate(_id, { ...req.body });
   const user = await User.findById(_id);
   res.json({
     email: user.email,
