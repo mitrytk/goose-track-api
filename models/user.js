@@ -29,10 +29,14 @@ const userSchema = new Schema(
       default: "0000-01-01",
     },
     phone: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "",
     },
     skype: {
+      type: String,
+      default: "",
+    },
+    avatarURL: {
       type: String,
       default: "",
     },
