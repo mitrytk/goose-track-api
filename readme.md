@@ -75,6 +75,8 @@ Base URL: https://goose-track-api-l50t.onrender.com
           - UPDATE:
           
                   PATCH api/auth/update
+                  header:
+                    Authorization: Bearer <token>
                   form data: 
                     avatar: jpg, png,
                     email: string,
@@ -91,6 +93,17 @@ Base URL: https://goose-track-api-l50t.onrender.com
                     "phone",
                     "skype",
                     "avatarURL",
+                  }
+                  
+          - TOGGLE THEMES:
+          
+                  PATCH /api/auth/toggle-theme
+                  header:
+                    Authorization: Bearer <token>
+
+                  res:
+                  {
+                    "themeInterface",
                   }
                   
   
