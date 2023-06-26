@@ -7,14 +7,14 @@ const {
   deleteTask,
 } = require("../../controllers/tasks");
 
-const {addTaskSchema, updateTaskSchema} = require('../../schemas');
+const { addTaskSchema, updateTaskSchema } = require("../../schemas");
 const { volidateBody, authenticate } = require("../../middlewares/index");
 
 const router = express.Router();
 
-router.use(authenticate)
+router.use(authenticate);
 
-router.route('/').get(getTasks).post(volidateBody(addTaskSchema), createTask)
+router.route("/").get(getTasks).post(volidateBody(addTaskSchema), createTask);
 
 router
   .route(`/:taskId`)
@@ -22,4 +22,4 @@ router
   .patch(volidateBody(updateTaskSchema), updateTask)
   .delete(deleteTask);
 
-module.exports = router
+module.exports = router;
