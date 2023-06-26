@@ -34,6 +34,7 @@ const register = async (req, res) => {
       phone: newUser.phone,
       skype: newUser.skype,
       avatarURL: newUser.avatarURL,
+      themeInterface: newUser.themeInterface,
     },
   });
 };
@@ -67,12 +68,14 @@ const login = async (req, res) => {
       phone: user.phone,
       skype: user.skype,
       avatarURL: user.avatarURL,
+      themeInterface: user.themeInterface,
     },
   });
 };
 
 const getCurrent = async (req, res) => {
-  const { email, name, birthday, phone, skype, avatarURL } = req.user;
+  const { email, name, birthday, phone, skype, avatarURL, themeInterface } =
+    req.user;
 
   res.json({
     email,
@@ -81,6 +84,7 @@ const getCurrent = async (req, res) => {
     phone,
     skype,
     avatarURL,
+    themeInterface,
   });
 };
 
