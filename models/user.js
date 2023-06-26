@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 // const emailRegexp = "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/";
 
+const statesThemes = ["light", "dark"];
 const userSchema = new Schema(
   {
     name: {
@@ -39,6 +40,11 @@ const userSchema = new Schema(
     avatarURL: {
       type: String,
       default: "",
+    },
+    themeInterface: {
+      type: String,
+      enum: statesThemes,
+      default: "light",
     },
   },
   { versionKey: false, timestamps: true }

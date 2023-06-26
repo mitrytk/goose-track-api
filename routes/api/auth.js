@@ -25,5 +25,6 @@ router.patch(
   volidateBody(updateShema),
   ctrl.update
 );
+router.patch("/toggle-theme", authenticate, ctrl.toggleThemes);
 
 module.exports = router;
