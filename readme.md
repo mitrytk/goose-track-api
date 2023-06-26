@@ -5,9 +5,9 @@ Base URL: https://goose-track-api-l50t.onrender.com
 (USERS) Работа с пользователем:
 
           - SIGN UP:
-          
-                  POST /api/auth/register 
-                  body: 
+
+                  POST /api/auth/register
+                  body:
                   {
                     "name": string, min 3, max 30, required,
                     "password": string, required,
@@ -25,11 +25,11 @@ Base URL: https://goose-track-api-l50t.onrender.com
                           "avatarURL",
                       }
                   }
-                  
+
           - LOGIN:
-          
+
                   POST /api/auth/login
-                  body: 
+                  body:
                   {
                     "password": string, required,
                     "email": string, min 6, required,
@@ -46,9 +46,9 @@ Base URL: https://goose-track-api-l50t.onrender.com
                           "avatarURL",
                       }
                   }
-                  
+
           - LOG OUT:
-          
+
                   POST /api/auth/logout
                   header:
                     Authorization: Bearer <token>
@@ -56,9 +56,9 @@ Base URL: https://goose-track-api-l50t.onrender.com
                   {
                       "message": "Logout success"
                   }
-                  
+
           - CURRENT:
-          
+
                   GET /api/auth/current
                   header:
                     Authorization: Bearer <token>
@@ -71,13 +71,13 @@ Base URL: https://goose-track-api-l50t.onrender.com
                       "skype",
                       "avatarURL",
                   }
-                  
+
           - UPDATE:
-          
+
                   PATCH api/auth/update
                   header:
                     Authorization: Bearer <token>
-                  form data: 
+                  form data:
                     avatar: jpg, png,
                     email: string,
                     name: string, min 3, max 30,
@@ -94,9 +94,9 @@ Base URL: https://goose-track-api-l50t.onrender.com
                     "skype",
                     "avatarURL",
                   }
-                  
+
           - TOGGLE THEMES:
-          
+
                   PATCH /api/auth/toggle-theme
                   header:
                     Authorization: Bearer <token>
@@ -105,6 +105,88 @@ Base URL: https://goose-track-api-l50t.onrender.com
                   {
                     "themeInterface",
                   }
-                  
-  
-    
+
+---
+
+Reviews - работа с отзывами
+
+        -ADD
+        POST /api/reviews/
+          body:
+                  {
+                     rating: {
+                     type: Number,
+                      enum: [1, 2, 3, 4, 5],
+                     default: 5,
+                    required: true,
+                            },
+                 review: {
+                    type: String,
+                   required: true,
+                    minlength: 10,
+                    maxlength: 300,
+                        }
+                  }
+                  res: {
+                          "owner": {
+                              name: String,
+                              avatarURL: String,
+                              id: String,
+                                  },
+                         "rating": number,
+                          "review": "",
+                          "_id": "dddddddddddddddddddddddddddddddd",
+                         "createdAt": "2023-06-26T17:22:52.601Z",
+                          "updatedAt": "2023-06-26T17:22:52.601Z"
+                      }
+
+      -EDIT
+            PATCH /api/reviews/:id
+              body: {
+                review: {
+                    type: String,
+                    required: true,
+                    minlength: 10,
+                    maxlength: 300,
+                }
+                rating: {
+                    type: Number,
+                    enum: [1, 2, 3, 4, 5],
+                    default: 5,
+                    required: true,
+                },
+              }
+              res: {
+                "owner": {
+                    name: String,
+                    avatarURL: String,
+                    id: String,
+                },
+                "rating": number,
+                "review": "",
+                "_id": "dddddddddddddddddddddddddddddddd",
+                "createdAt": "2023-06-26T17:22:52.601Z",
+                "updatedAt": "2023-06-26T17:22:52.601Z"
+                }
+
+-DELETE
+DELETE /api/reviews/:id
+res: {
+message: "review deleted"
+}
+
+-GET
+GET /api/reviews/
+
+                 res: {
+                          "owner": {
+                              name: String,
+                              avatarURL: String,
+                              id: String,
+                                  },
+                         "rating": number,
+                          "review": "",
+                          "_id": "dddddddddddddddddddddddddddddddd",
+                         "createdAt": "2023-06-26T17:22:52.601Z",
+                          "updatedAt": "2023-06-26T17:22:52.601Z"
+                      }

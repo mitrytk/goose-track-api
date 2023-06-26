@@ -3,17 +3,18 @@ const { HttpError, ctrlWrapper } = require("../helpers/index");
 require("dotenv").config();
 
 const getReviews = async (req, res, next) => {
-    const {page = 1, limit = 10} = req.query;
+    const {page = 1, limit = 1} = req.query;
     const skip = (page - 1) * limit;
 
-    const result = await Review.find({}, {skip, limit});
+    const result = await Review.find({}, "", {skip, limit});
+    res.status(200).json({result});
 }
 
 const addReview = async (req, res, next) => {
     const {name, avatarURL, _id} = req.user;
     const owner = {name, avatarURL, id: _id};
 
-    const result = await Review.create({...req.body, owner});
+    const result = await Review.create({...req.body, _id, owner});
 
     res.status(200).json({result});
 }
