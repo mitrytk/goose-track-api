@@ -1,0 +1,543 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "0.1.0",
+    "title": "GooseTrack",
+    "description": "Time management To-do app"
+  },
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
+  "servers": [
+    {
+      "url": "https://goose-track-api-l50t.onrender.com"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User signup",
+        "parameters": [],
+        "requestBody": {
+          "description": "Register object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "User login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessMessageResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access errors (authorization or token verification)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user info",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/update": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Update current user info",
+        "parameters": [],
+        "requestBody": {
+          "description": "User parameters object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/toggle-theme": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Switch app color theme",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Toggle-theme response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "maxLength": 30,
+            "example": "Michael Townley"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "minLength": 6,
+            "example": "qwerty123"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "minLength": 6,
+            "example": "qwerty123"
+          }
+        }
+      },
+      "UpdateRequest": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "file"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "maxLength": 30,
+            "example": "Michael Townley"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday date",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone number",
+            "minLength": 10,
+            "example": "890 123 4566"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's Skype link",
+            "minLength": 3,
+            "example": "SkypeName"
+          }
+        }
+      },
+      "RegisterResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Backend access token"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "username": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Michael Townley"
+              },
+              "birthday": {
+                "type": "string",
+                "description": "User`s birthday",
+                "example": "0000-01-01T00:00:00.000Z"
+              },
+              "phone": {
+                "type": "string",
+                "description": "User`s phone number",
+                "example": " "
+              },
+              "skype": {
+                "type": "string",
+                "description": "User`s Skype link",
+                "example": " "
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User`s avatar",
+                "example": " "
+              },
+              "ThemeInterface": {
+                "type": "string",
+                "description": "App`s theme color",
+                "example": "light"
+              }
+            }
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Backend access token"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "username": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Michael Townley"
+              },
+              "birthday": {
+                "type": "string",
+                "description": "User`s birthday",
+                "example": "0000-01-01T00:00:00.000Z"
+              },
+              "phone": {
+                "type": "string",
+                "description": "User`s phone number",
+                "example": " "
+              },
+              "skype": {
+                "type": "string",
+                "description": "User`s Skype link",
+                "example": " "
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User`s avatar",
+                "example": " "
+              },
+              "ThemeInterface": {
+                "type": "string",
+                "description": "App`s theme color",
+                "example": "light"
+              }
+            }
+          }
+        }
+      },
+      "CurrentResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Michael Townley"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User`s birthday",
+            "example": "0000-01-01T00:00:00.000Z"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User`s phone number",
+            "example": " "
+          },
+          "skype": {
+            "type": "string",
+            "description": "User`s Skype link",
+            "example": " "
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User`s avatar",
+            "example": " "
+          }
+        }
+      },
+      "UpdateResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Michael DeSanta"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User`s birthday",
+            "example": "0000-01-01T00:00:00.000Z"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User`s phone number",
+            "example": " "
+          },
+          "skype": {
+            "type": "string",
+            "description": "User`s Skype link",
+            "example": " "
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User`s avatar",
+            "example": "avatar.url"
+          }
+        }
+      },
+      "Toggle-theme response": {
+        "type": "object",
+        "properties": {
+          "themeInterface": {
+            "type": "string",
+            "description": "Chosen color theme",
+            "example": "light"
+          }
+        }
+      },
+      "SuccessMessageResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Success notification",
+            "example": "User logged out"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error description",
+            "example": "Error description"
+          }
+        }
+      },
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "BearerFormat": "JWT"
+        }
+      }
+    }
+  }
+}
