@@ -19,7 +19,8 @@
     {
       "name": "Auth",
       "description": "Authorization endpoints"
-    }
+    },
+    { "name": "Tasks", "description": "Tasks data endpoints" }
   ],
   "paths": {
     "/api/auth/register": {
@@ -252,8 +253,175 @@
           }
         }
       }
+    },
+
+    "api/tasks": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get all personal tasks",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Get tasks response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tasks"],
+        "summary": "Create new task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Task object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Create task Request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Create task response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/tasks/:taskId": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get chosen task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Get task response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Update chosen task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Task object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update task Request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Update task response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete chosen task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessMessageResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
+
   "components": {
     "schemas": {
       "RegisterRequest": {
@@ -333,6 +501,85 @@
           }
         }
       },
+
+      "Create task Request": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task`s name",
+            "maxLength": 250,
+            "example": "Go IT"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task`s start time",
+            "pattern": "/^([0-9]{2}):([0-9]{2})$/",
+            "example": "13:37"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task`s end time",
+            "pattern": "/^([0-9]{2}):([0-9]{2})$/",
+            "example": "13:57"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task`s priority",
+            "example": "low"
+          },
+          "date": {
+            "type": "string",
+            "description": "Task`s event date",
+            "example": "2023-06-27"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task`s category",
+            "example": "toDo"
+          }
+        }
+      },
+      "Update task Request": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task`s name",
+            "maxLength": 250,
+            "example": "GoIT"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task`s start time",
+            "pattern": "/^([0-9]{2}):([0-9]{2})$/",
+            "example": "13:37"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task`s end time",
+            "pattern": "/^([0-9]{2}):([0-9]{2})$/",
+            "example": "13:47"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task`s priority",
+            "example": "medium"
+          },
+          "date": {
+            "type": "string",
+            "description": "Task`s event date",
+            "example": "2023-06-27"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task`s category",
+            "example": "done"
+          }
+        }
+      },
+
       "RegisterResponse": {
         "type": "object",
         "properties": {
@@ -511,6 +758,118 @@
           }
         }
       },
+
+      "Get task response": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Task`s Id",
+            "example": "6496ccb6c061590d05b73c07"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task`s name",
+            "maxLength": 250,
+            "example": "Got IT"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task`s start time",
+            "pattern": "/^([0-9]{2}):([0-9]{2})$/",
+            "example": "13:37"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task`s end time",
+            "pattern": "/^([0-9]{2}):([0-9]{2})$/",
+            "example": "13:37"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task`s priority",
+            "example": "low"
+          },
+          "date": {
+            "type": "string",
+            "description": "Task`s event date",
+            "example": "2023-06-27"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task`s category",
+            "example": "toDo"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Task owner`s Id",
+            "example": "6496ccb6c061590d05b73c07"
+          }
+        }
+      },
+
+      "Get tasks response": {
+        "type": "array",
+        "description": "Array of all tasks",
+        "items": {
+          "$ref": "#/components/schemas/Get task response"
+        }
+      },
+      "Create task response": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task`s name",
+            "maxLength": 250,
+            "example": "Go IT"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task`s start time",
+            "pattern": "/^([0-9]{2}):([0-9]{2})$/",
+            "example": "13:37"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task`s end time",
+            "pattern": "/^([0-9]{2}):([0-9]{2})$/",
+            "example": "13:37"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task`s priority",
+            "example": "low"
+          },
+          "date": {
+            "type": "string",
+            "description": "Task`s event date",
+            "example": "2023-06-27"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task`s category",
+            "example": "toDo"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Task owner`s Id",
+            "example": "6496ccb6c061590d05b73c07"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Task`s Id",
+            "example": "6496ccb6c061590d05b73c07"
+          }
+        }
+      },
+      "Update task Response": {
+        "type": "object",
+        "properties": {
+          "$ref": "#/components/schemas/Get task response"
+        }
+      },
+
       "SuccessMessageResponse": {
         "type": "object",
         "properties": {
