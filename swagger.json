@@ -863,7 +863,7 @@
           }
         }
       },
-      "Update task Response": {
+      "Update task response": {
         "type": "object",
         "properties": {
           "$ref": "#/components/schemas/Get task response"
