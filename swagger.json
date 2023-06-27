@@ -16,11 +16,9 @@
     }
   ],
   "tags": [
-    {
-      "name": "Auth",
-      "description": "Authorization endpoints"
-    },
-    { "name": "Tasks", "description": "Tasks data endpoints" }
+    { "name": "Auth", "description": "Authorization endpoints" },
+    { "name": "Tasks", "description": "Tasks data endpoints" },
+    { "name": "Reviews", "description": "Reviews endpoints" }
   ],
   "paths": {
     "/api/auth/register": {
@@ -255,7 +253,7 @@
       }
     },
 
-    "api/tasks": {
+    "/api/tasks": {
       "get": {
         "tags": ["Tasks"],
         "summary": "Get all personal tasks",
@@ -394,6 +392,170 @@
       "delete": {
         "tags": ["Tasks"],
         "summary": "Delete chosen task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessMessageResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "api/reviews": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get all reviews",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Get reviews response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Create review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Review object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Create review request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Create review response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "api/reviews/:id": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get chosen review",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Reviews"],
+        "summary": "Update review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Review object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update review request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "Delete chosen review",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -576,6 +738,43 @@
             "type": "string",
             "description": "Task`s category",
             "example": "done"
+          }
+        }
+      },
+
+      "Create review request": {
+        "type": "object",
+        "required": ["rating", "review"],
+        "properties": {
+          "rating": {
+            "type": "number",
+            "description": "Number of stars",
+            "example": 5
+          },
+          "review": {
+            "type": "string",
+            "description": "Review`s text",
+            "minLength": 10,
+            "maxLength": 300,
+            "example": "Great app for great people"
+          }
+        }
+      },
+
+      "Update review request": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "number",
+            "description": "Number of stars",
+            "example": 5
+          },
+          "review": {
+            "type": "string",
+            "description": "Review`s text",
+            "minLength": 10,
+            "maxLength": 300,
+            "example": "Great app for great people"
           }
         }
       },
@@ -867,6 +1066,95 @@
         "type": "object",
         "properties": {
           "$ref": "#/components/schemas/Get task response"
+        }
+      },
+
+      "Create review response": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Reviewer`s name",
+                "example": "Michael DeSanta"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "Reviewer`s name",
+                "example": "avatar.url"
+              },
+              "id": {
+                "type": "string",
+                "description": "User`s Id",
+                "example": "dddddddddddddddddddddddddddddddd"
+              }
+            }
+          },
+          "rating": {
+            "type": "number",
+            "description": "Number of stars",
+            "example": 5
+          },
+          "review": {
+            "type": "string",
+            "description": "Review`s text",
+            "example": "Great app for great people"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Review`s Id",
+            "example": "dddddddddddddddddddddddddddddddd"
+          }
+        }
+      },
+      "Review response": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Reviewer`s name",
+                "example": "Michael DeSanta"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "Reviewer`s name",
+                "example": "avatar.url"
+              },
+              "id": {
+                "type": "string",
+                "description": "User`s Id",
+                "example": "dddddddddddddddddddddddddddddddd"
+              }
+            }
+          },
+          "rating": {
+            "type": "number",
+            "description": "Number of stars",
+            "example": 5
+          },
+          "review": {
+            "type": "string",
+            "description": "Review`s text",
+            "example": "Great app for great people"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Review`s Id",
+            "example": "dddddddddddddddddddddddddddddddd"
+          }
+        }
+      },
+
+      "Get reviews response": {
+        "type": "array",
+        "description": "Array of all reviews",
+        "items": {
+          "$ref": "#/components/schemas/Review response"
         }
       },
 
