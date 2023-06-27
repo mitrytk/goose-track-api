@@ -1,8 +1,10 @@
 const { Task } = require("../models/task");
-const { HttpError, ctrlWrapper } = require("../helpers/index");
+const { ctrlWrapper } = require("../helpers/index");
 
 const getTasksStatisticsService = async (owner, dateString) => {
-  const [year, month, day] = dateString.split(" ");
+  const [year, month, day] = dateString.split("-");
+
+  console.log(dateString.split("-"));
 
   const startDay = new Date(
     parseInt(year),
@@ -26,12 +28,12 @@ const getTasksStatisticsService = async (owner, dateString) => {
 
   const allTasksByMonth = await Task.find({
     owner,
-    updatedAt: { $gte: startMonth, $lte: endMonth },
+    date: { $gte: startMonth, $lte: endMonth },
   });
 
   const allTasksByDay = await Task.find({
     owner,
-    updatedAt: { $gte: startDay, $lte: endDay },
+    date: { $gte: startDay, $lte: endDay },
   });
 
   return { allTasksByDay, allTasksByMonth };
