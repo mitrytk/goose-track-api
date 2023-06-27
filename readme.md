@@ -190,3 +190,19 @@ GET /api/reviews/
                          "createdAt": "2023-06-26T17:22:52.601Z",
                           "updatedAt": "2023-06-26T17:22:52.601Z"
                       }
+
+-GET ONE Review
+GET /api/reviews/:id
+
+                 res: {
+                          "owner": {
+                              name: String,
+                              avatarURL: String,
+                              id: String,
+                                  },
+                         "rating": number,
+                          "review": "",
+                          "_id": "dddddddddddddddddddddddddddddddd",
+                         "createdAt": "2023-06-26T17:22:52.601Z",
+                          "updatedAt": "2023-06-26T17:22:52.601Z"
+                      }

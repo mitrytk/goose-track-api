@@ -10,6 +10,17 @@ const getReviews = async (req, res, next) => {
     res.status(200).json({result});
 }
 
+const getReview = async (req, res, next) => {
+    const {id} = req.params;
+    const result = await Review.find(id);
+
+    if(!result) {
+        throw HttpError(404, "Not found")
+      }
+
+    res.status(200).json({result});
+}
+
 const addReview = async (req, res, next) => {
     const {name, avatarURL, _id} = req.user;
     const owner = {name, avatarURL, id: _id};
@@ -47,5 +58,6 @@ module.exports = {
     addReview: ctrlWrapper(addReview),
     editReview: ctrlWrapper(editReview),
     deleteReview: ctrlWrapper(deleteReview),
-    getReviews: ctrlWrapper(getReviews)
+    getReviews: ctrlWrapper(getReviews),
+    getReview: ctrlWrapper(getReview)
 };
