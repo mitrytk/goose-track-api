@@ -28,6 +28,7 @@ const register = async (req, res) => {
   res.status(201).json({
     token,
     user: {
+      id: newUser._id,
       email: newUser.email,
       name: newUser.name,
       birthday: newUser.birthday,
@@ -62,6 +63,7 @@ const login = async (req, res) => {
   res.json({
     token,
     user: {
+      id: user._id,
       email: user.email,
       name: user.name,
       birthday: user.birthday,
@@ -74,10 +76,19 @@ const login = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email, name, birthday, phone, skype, avatarURL, themeInterface } =
-    req.user;
+  const {
+    email,
+    name,
+    birthday,
+    phone,
+    skype,
+    avatarURL,
+    themeInterface,
+    _id,
+  } = req.user;
 
   res.json({
+    id: _id,
     email,
     name,
     birthday,
