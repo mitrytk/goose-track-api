@@ -1,16 +1,18 @@
 const Joi = require("joi");
 
 const timePattern = /^([0-9]{2}):([0-9]{2})$/;
-
-const day = 86400000;
+const datePattern = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
 
 const addTaskSchema = Joi.object({
   title: Joi.string().max(250).required(),
   start: Joi.string().regex(timePattern),
   end: Joi.string().regex(timePattern),
   priority: Joi.string().valid(...["low", "medium", "high"]),
-  date: Joi.date().min(new Date() - day),
-  category: Joi.string().valid(...["toDo", "inProgress", "done"]),
+  date: Joi.string()
+    .regex(datePattern)
+    .message("Invalid 'date'. Please, use YYYY-MM-DD string format")
+    .required(),
+  category: Joi.string().valid(...["to-do", "in-progress", "done"]),
 })
   .custom((value, helpers) => {
     const startTime = new Date(`2023-02-03T${value.start}`);
@@ -23,8 +25,7 @@ const addTaskSchema = Joi.object({
   })
   .messages({
     "any.invalid": "Please, set correct time",
-  });;
-
+  });
 
 const updateTaskSchema = Joi.object()
   .keys({
@@ -49,4 +50,4 @@ const updateTaskSchema = Joi.object()
     "any.invalid": "Please, set correct time",
   });
 
-module.exports = {addTaskSchema, updateTaskSchema}
+module.exports = { addTaskSchema, updateTaskSchema };

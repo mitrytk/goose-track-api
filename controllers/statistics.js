@@ -46,9 +46,9 @@ const getTasksStatistics = async (req, res) => {
   const tasks = await getTasksStatisticsService(owner, date);
   const { allTasksByDay, allTasksByMonth } = tasks;
 
-  const toDoByDay = allTasksByDay.filter((task) => task.category === "toDo");
+  const toDoByDay = allTasksByDay.filter((task) => task.category === "to-do");
   const inProgressByDay = allTasksByDay.filter(
-    (task) => task.category === "inProgress"
+    (task) => task.category === "in-progress"
   );
   const doneByDay = allTasksByDay.filter((task) => task.category === "done");
 
@@ -58,10 +58,10 @@ const getTasksStatistics = async (req, res) => {
   const doneByDayInPercent = doneByDay.length / allTasksByDay.length;
 
   const toDoByMonth = allTasksByMonth.filter(
-    (task) => task.category === "toDo"
+    (task) => task.category === "to-do"
   );
   const inProgressByMonth = allTasksByMonth.filter(
-    (task) => task.category === "inProgress"
+    (task) => task.category === "in-progress"
   );
   const doneByMonth = allTasksByMonth.filter(
     (task) => task.category === "done"

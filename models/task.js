@@ -22,13 +22,13 @@ const taskSchema = new mongoose.Schema(
       trim: true,
     },
     date: {
-      type: Date,
-      default: new Date(),
+      type: String,
+      required: true,
     },
     category: {
       type: String,
-      enum: ["toDo", "inProgress", "done"],
-      default: "toDo",
+      enum: ["to-do", "in-progress", "done"],
+      default: "to-do",
       trim: true,
     },
     owner: {
