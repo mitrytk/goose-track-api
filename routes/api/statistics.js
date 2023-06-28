@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.use(authenticate);
 
-router.route("/").get(volidateBody(statisticsSchema), getTasksStatistics);
+router.route("/").post(volidateBody(statisticsSchema), getTasksStatistics);
 
 module.exports = router;
