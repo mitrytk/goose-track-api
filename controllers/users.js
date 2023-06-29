@@ -75,6 +75,28 @@ const login = async (req, res) => {
   });
 };
 
+const changePassword = async (req, res) => {
+  const { _id } = req.user;
+ 
+  const { password, newPassword } = req.body;
+  console.log(req.body)
+  const user = await User.findOne({ _id });
+  
+ 
+  const passwordCompare = await bcrypt.compare(password, user.password);
+
+  if (!passwordCompare) {
+    throw HttpError(401, "Password invalid");
+  }
+
+  const hashNewPassword = await bcrypt.hash(newPassword, 10);
+  await User.findByIdAndUpdate(_id, { password: hashNewPassword });
+
+  res.status(200).json({
+    message: "Successfull change password"
+  })
+};
+
 const getCurrent = async (req, res) => {
   const {
     email,
@@ -165,4 +187,5 @@ module.exports = {
   logout: ctrlWrapper(logout),
   update: ctrlWrapper(update),
   toggleThemes: ctrlWrapper(toggleThemes),
+  changePassword: ctrlWrapper(changePassword),
 };
