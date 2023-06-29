@@ -12,10 +12,12 @@ const {
   registerSchema,
   loginShema,
   updateShema,
+  changePasswordShema,
 } = require("../../schemas/index");
 
 router.post("/register", volidateBody(registerSchema), ctrl.register);
 router.post("/login", volidateBody(loginShema), ctrl.login);
+router.patch("/password", authenticate, ctrl.changePassword);
 router.post("/logout", authenticate, ctrl.logout);
 router.get("/current", authenticate, ctrl.getCurrent);
 router.patch(

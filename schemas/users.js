@@ -12,6 +12,11 @@ const loginShema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const changePasswordShema = Joi.object({
+    password: Joi.string().min(6).required(),
+    newPassword: Joi.string().min(6).required(),
+});
+
 const updateShema = Joi.object({
   email: Joi.string(),
   name: Joi.string().min(3).max(30),
@@ -26,4 +31,5 @@ module.exports = {
   registerSchema,
   loginShema,
   updateShema,
+  changePasswordShema,
 };
