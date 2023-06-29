@@ -43,7 +43,7 @@ const deleteTask = async (req, res) => {
     throw new HttpError(404, "Task not found!");
   }
 
-  res.status(200).json({ message: "Task removed" });
+  res.status(200).json(taskId);
 };
 
 module.exports = {
