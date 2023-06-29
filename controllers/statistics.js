@@ -2,38 +2,33 @@ const { Task } = require("../models/task");
 const { ctrlWrapper } = require("../helpers/index");
 
 const getTasksStatisticsService = async (owner, dateString) => {
-  const [year, month, day] = dateString.split("-");
+  const startDay = new Date(dateString);
+  const endDay = new Date(dateString);
 
-  console.log(dateString.split("-"));
+  startDay.setHours(0, 0, 0, 0);
+  endDay.setHours(23, 59, 59, 999);
 
-  const startDay = new Date(
-    parseInt(year),
-    parseInt(month) - 1,
-    parseInt(day),
-    0,
-    0,
-    0
-  );
-  const endDay = new Date(
-    parseInt(year),
-    parseInt(month) - 1,
-    parseInt(day),
-    23,
-    59,
-    59
-  );
+  const startMonth = new Date(dateString.substr(0, 7));
+  const endMonth = new Date(dateString.substr(0, 7));
+  endMonth.setMonth(endMonth.getMonth() + 1);
+  endMonth.setDate(0);
+  endMonth.setHours(23, 59, 59, 999);
 
-  const startMonth = new Date(parseInt(year), parseInt(month) - 1, 1);
-  const endMonth = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59);
+  const formattedStartMonth = startMonth.toISOString().substring(0, 10);
+  const formattedEndMonth = endMonth.toISOString().substring(0, 10);
+  const formattedStartDay = startDay.toISOString().substring(0, 10);
+  const formattedEndDay = endDay.toISOString().substring(0, 10);
+
+  console.log(formattedEndMonth);
 
   const allTasksByMonth = await Task.find({
     owner,
-    date: { $gte: startMonth, $lte: endMonth },
+    date: { $gte: formattedStartMonth, $lte: formattedEndMonth },
   });
 
   const allTasksByDay = await Task.find({
     owner,
-    date: { $gte: startDay, $lte: endDay },
+    date: { $gte: formattedStartDay, $lte: formattedEndDay },
   });
 
   return { allTasksByDay, allTasksByMonth };
