@@ -18,7 +18,8 @@
   "tags": [
     { "name": "Auth", "description": "Authorization endpoints" },
     { "name": "Tasks", "description": "Tasks data endpoints" },
-    { "name": "Reviews", "description": "Reviews endpoints" }
+    { "name": "Reviews", "description": "Reviews endpoints" },
+    { "name": "Statistics", "description": "Statistics endpoints" }
   ],
   "paths": {
     "/api/auth/register": {
@@ -452,6 +453,7 @@
         "summary": "Create review",
         "parameters": [],
         "security": [{ "Bearer": [] }],
+        "required": true,
         "requestBody": {
           "description": "Review object",
           "content": {
@@ -581,8 +583,50 @@
           }
         }
       }
+    },
+    "api/statistics": {
+      "post": {
+        "tags": ["Statistics"],
+        "summary": "Get statistics for chosen date",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "required": true,
+        "requestBody": {
+          "description": "Statistics object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Get statistics request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Get statistics response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
+
 
   "components": {
     "schemas": {
@@ -775,6 +819,18 @@
             "minLength": 10,
             "maxLength": 300,
             "example": "Great app for great people"
+          }
+        }
+      },
+
+      "Get statistics request": {
+        "type": "object",
+        "required": ["date"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Date for statistics to get",
+            "example": "2023-06-27"
           }
         }
       },
@@ -1155,6 +1211,62 @@
         "description": "Array of all reviews",
         "items": {
           "$ref": "#/components/schemas/Review response"
+        }
+      },
+
+      "Get statistics response": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "object",
+            "properties": {
+              "tasksQuantity": {
+                "type": "number",
+                "description": "General quantity of tasks per chosen month",
+                "example": 10
+              },
+              "toDoByMonthInPercent": {
+                "type": "number",
+                "description": "Percent of tasks in 'to-do' category per chosen month",
+                "example": 0.3
+              },
+              "inProgressByMonthInPercent": {
+                "type": "number",
+                "description": "Percent of tasks in 'in-progress' category per chosen month",
+                "example": 0.2
+              },
+              "doneByMonthInPercent": {
+                "type": "number",
+                "description": "Percent of tasks in 'done' category per chosen month",
+                "example": 0.2
+              }
+            }
+          },
+          "day": {
+            "type": "object",
+            "properties": {
+              "tasksQuantity": {
+                "type": "number",
+                "description": "General quantity of tasks per chosen day",
+                "example": 4
+              },
+              "toDoByMonthInPercent": {
+                "type": "number",
+                "description": "Percent of tasks in 'to-do' category per chosen day",
+                "example": 0.5
+              },
+              "inProgressByMonthInPercent": {
+                "type": "number",
+                "description": "Percent of tasks in 'in-progress' category per chosen day",
+                "example": 0.25
+              },
+              "doneByMonthInPercent": {
+                "type": "number",
+                "description": "Percent of tasks in 'done' category per chosen day",
+                "example": 0.25
+              }
+            }
+          }
         }
       },
 
