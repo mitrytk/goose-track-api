@@ -135,6 +135,7 @@ const update = async (req, res) => {
     phone: user.phone,
     skype: user.skype,
     avatarURL: user.avatarURL,
+    themeInterface: user.themeInterface,
   });
 };
 
