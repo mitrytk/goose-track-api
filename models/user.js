@@ -2,6 +2,14 @@ const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 // const emailRegexp = "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/";
 
+  const date = new Date();
+  const day = date.getDate().toString();
+  const month = (date.getMonth() + 1).toString();
+  const year = date.getFullYear().toString();
+
+ 
+console.log(day, month, year)
+ 
 const statesThemes = ["light", "dark"];
 const userSchema = new Schema(
   {
@@ -27,7 +35,9 @@ const userSchema = new Schema(
     },
     birthday: {
       type: String,
-      default: "",
+      default: `${day.length === 1 ? `0${day}` : day}/${
+        month.length === 1 ? `0${month}` : month
+      }/${year}`,
     },
     phone: {
       type: String,
@@ -49,6 +59,7 @@ const userSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
+
 
 userSchema.post("save", handleMongooseError);
 
