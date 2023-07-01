@@ -26,8 +26,8 @@ const userSchema = new Schema(
       default: "",
     },
     birthday: {
-      type: Date,
-      default: "0000-01-01",
+      type: String,
+      default: "",
     },
     phone: {
       type: String,
