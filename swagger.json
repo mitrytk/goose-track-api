@@ -323,11 +323,20 @@
         }
       }
     },
-    "api/tasks/:taskId": {
+    "api/tasks/{taskId}": {
       "get": {
         "tags": ["Tasks"],
         "summary": "Get chosen task",
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "type": "string",
+            "description": "Task's id",
+            "example": "64a45c827e369c91237ba2f5"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -355,7 +364,14 @@
       "patch": {
         "tags": ["Tasks"],
         "summary": "Update chosen task",
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "taskId",
+          "required": true,
+          "type": "string",
+          "description": "Task's id",
+          "example": "64a45c827e369c91237ba2f5"
+        }],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Task object",
@@ -393,7 +409,14 @@
       "delete": {
         "tags": ["Tasks"],
         "summary": "Delete chosen task",
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "taskId",
+          "required": true,
+          "type": "string",
+          "description": "Task's id",
+          "example": "64a45c827e369c91237ba2f5"
+        }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -420,7 +443,7 @@
       }
     },
 
-    "api/reviews": {
+    "/api/reviews": {
       "get": {
         "tags": ["Reviews"],
         "summary": "Get all reviews",
@@ -488,12 +511,19 @@
         }
       }
     },
-    "api/reviews/:id": {
+    "/api/reviews/{id}": {
       "get": {
         "tags": ["Reviews"],
         "summary": "Get chosen review",
         "security": [{ "Bearer": [] }],
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string",
+          "description": "Review's Id",
+          "example": "6499bcf35fdfb7e0370174f6"
+        }],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -520,7 +550,14 @@
       "patch": {
         "tags": ["Reviews"],
         "summary": "Update review",
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string",
+          "description": "Review's Id",
+          "example": "6499bcf35fdfb7e0370174f6"
+        }],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Review object",
@@ -558,7 +595,14 @@
       "delete": {
         "tags": ["Reviews"],
         "summary": "Delete chosen review",
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string",
+          "description": "Review's Id",
+          "example": "6499bcf35fdfb7e0370174f6"
+        }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -584,7 +628,7 @@
         }
       }
     },
-    "api/statistics": {
+    "/api/statistics": {
       "post": {
         "tags": ["Statistics"],
         "summary": "Get statistics for chosen date",
@@ -626,7 +670,6 @@
       }
     }
   },
-
 
   "components": {
     "schemas": {
@@ -1289,13 +1332,13 @@
             "example": "Error description"
           }
         }
-      },
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "BearerFormat": "JWT"
-        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "BearerFormat": "JWT"
       }
     }
   }

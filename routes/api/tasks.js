@@ -12,14 +12,15 @@ const { volidateBody, authenticate } = require("../../middlewares/index");
 
 const router = express.Router();
 
-router.use(authenticate);
-
-router.route("/").get(getTasks).post(volidateBody(addTaskSchema), createTask);
-
-router
-  .route(`/:taskId`)
-  .get(getTask)
-  .patch(volidateBody(updateTaskSchema), updateTask)
-  .delete(deleteTask);
+router.get("/", authenticate, getTasks);
+router.get("/:taskId", authenticate, getTask);
+router.post("/", authenticate, volidateBody(addTaskSchema), createTask);
+router.patch(
+  "/:taskId",
+  authenticate,
+  volidateBody(updateTaskSchema),
+  updateTask
+);
+router.delete("/:taskId", authenticate, deleteTask);
 
 module.exports = router;
