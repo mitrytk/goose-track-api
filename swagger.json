@@ -323,7 +323,7 @@
         }
       }
     },
-    "api/tasks/{taskId}": {
+    "/api/tasks/{taskId}": {
       "get": {
         "tags": ["Tasks"],
         "summary": "Get chosen task",
