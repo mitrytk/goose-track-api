@@ -323,6 +323,46 @@
         }
       }
     },
+    "/api/tasks/month/{:yyyy-:mm}": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get all task for chosen month",
+        "parameters": [
+          {
+            "in": "path",
+            "name": ":year-:month",
+            "required": true,
+            "type": "string",
+            "description": "Tasks for the month",
+            "example": "2023-06"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Get tasks response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/api/tasks/{taskId}": {
       "get": {
         "tags": ["Tasks"],

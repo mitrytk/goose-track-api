@@ -1,9 +1,23 @@
 const { Task } = require("../models/task");
-const { HttpError, ctrlWrapper } = require("../helpers/index");
+const { HttpError, ctrlWrapper } = require("../helpers");
 
 const getTasks = async (req, res) => {
-  const owner = req.user._id;
-  const tasks = await Task.find({owner});
+   const owner = req.user;
+   const tasks = await Task.find({owner});
+   res.status(200).json(tasks);
+}
+
+const getMonthTasks = async (req, res) => {
+  const { year, month } = req.params;
+  const startDate = `${year}-${month.toString().padStart(2, "0")}-01`;
+  const endDate = `${year}-${month.toString().padStart(2, "0")}-${new Date(
+    year,
+    month,
+    0
+  ).getDate()}`;
+  console.log(year, month)
+  const owner = req.user;
+  const tasks = await Task.find({date: { $gte: startDate, $lte: endDate },owner});
   res.status(200).json(tasks);
 };
 
@@ -58,6 +72,7 @@ const deleteTask = async (req, res) => {
 
 module.exports = {
   getTasks: ctrlWrapper(getTasks),
+  getMonthTasks: ctrlWrapper(getMonthTasks),
   getTask: ctrlWrapper(getTask),
   createTask: ctrlWrapper(createTask),
   updateTask: ctrlWrapper(updateTask),
