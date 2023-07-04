@@ -156,7 +156,8 @@ const login = async (req, res) => {
 
 const loginGoogle = async (req, res) => {
   const { mail } = req.body;
-  const user = await User.findOne({ mail });
+  const email = mail;
+  const user = await User.findOne({ email });
 
   if (!user) {
     throw HttpError(401, "Email or password invalid");
