@@ -54,7 +54,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/RegisterErrorResponse"
                 }
               }
             }
@@ -64,7 +64,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/EmailErrorResponse"
                 }
               }
             }
@@ -104,7 +104,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/LoginErrorResponse"
                 }
               }
             }
@@ -114,7 +114,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/LoginErrorResponse"
                 }
               }
             }
@@ -144,7 +144,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -174,7 +174,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -215,7 +215,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -245,7 +245,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -276,7 +276,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -315,7 +315,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -323,11 +323,60 @@
         }
       }
     },
-    "api/tasks/:taskId": {
+    "/api/tasks/month/{:yyyy-:mm}": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get all task for chosen month",
+        "parameters": [
+          {
+            "in": "path",
+            "name": ":year-:month",
+            "required": true,
+            "type": "string",
+            "description": "Tasks for the month",
+            "example": "2023-06"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Get tasks response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/api/tasks/{taskId}": {
       "get": {
         "tags": ["Tasks"],
         "summary": "Get chosen task",
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "type": "string",
+            "description": "Task's id",
+            "example": "64a45c827e369c91237ba2f5"
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -345,7 +394,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -355,7 +404,14 @@
       "patch": {
         "tags": ["Tasks"],
         "summary": "Update chosen task",
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "taskId",
+          "required": true,
+          "type": "string",
+          "description": "Task's id",
+          "example": "64a45c827e369c91237ba2f5"
+        }],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Task object",
@@ -383,7 +439,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -393,7 +449,14 @@
       "delete": {
         "tags": ["Tasks"],
         "summary": "Delete chosen task",
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "taskId",
+          "required": true,
+          "type": "string",
+          "description": "Task's id",
+          "example": "64a45c827e369c91237ba2f5"
+        }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -411,7 +474,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -420,7 +483,7 @@
       }
     },
 
-    "api/reviews": {
+    "/api/reviews": {
       "get": {
         "tags": ["Reviews"],
         "summary": "Get all reviews",
@@ -441,7 +504,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -480,7 +543,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -488,12 +551,19 @@
         }
       }
     },
-    "api/reviews/:id": {
+    "/api/reviews/{id}": {
       "get": {
         "tags": ["Reviews"],
         "summary": "Get chosen review",
         "security": [{ "Bearer": [] }],
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string",
+          "description": "Review's Id",
+          "example": "6499bcf35fdfb7e0370174f6"
+        }],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -510,7 +580,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -520,7 +590,14 @@
       "patch": {
         "tags": ["Reviews"],
         "summary": "Update review",
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string",
+          "description": "Review's Id",
+          "example": "6499bcf35fdfb7e0370174f6"
+        }],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Review object",
@@ -548,7 +625,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -558,7 +635,14 @@
       "delete": {
         "tags": ["Reviews"],
         "summary": "Delete chosen review",
-        "parameters": [],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string",
+          "description": "Review's Id",
+          "example": "6499bcf35fdfb7e0370174f6"
+        }],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -576,7 +660,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -584,7 +668,7 @@
         }
       }
     },
-    "api/statistics": {
+    "/api/statistics": {
       "post": {
         "tags": ["Statistics"],
         "summary": "Get statistics for chosen date",
@@ -617,7 +701,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AuthErrorResponse"
                 }
               }
             }
@@ -626,7 +710,6 @@
       }
     }
   },
-
 
   "components": {
     "schemas": {
@@ -1280,6 +1363,46 @@
           }
         }
       },
+      "RegisterErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error description",
+            "example": "Invalid data entered"
+          }
+        }
+      },
+      "EmailErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error description",
+            "example": "Email in use"
+          }
+        }
+      },
+      "LoginErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error description",
+            "example": "Email or password invalid"
+          }
+        }
+      },
+      "AuthErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error description",
+            "example": "Unauthorized"
+          }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "properties": {
@@ -1289,13 +1412,13 @@
             "example": "Error description"
           }
         }
-      },
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "BearerFormat": "JWT"
-        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "BearerFormat": "JWT"
       }
     }
   }
