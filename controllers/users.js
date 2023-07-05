@@ -57,6 +57,13 @@ const googleRedirect = async (req, res) => {
   const id = userData.data.id;
   const user = await User.findOne({email});
 
+  if(user) {
+    const payload = {
+        id: user._id,
+      };
+      const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+      await User.findByIdAndUpdate(user._id, { token });}
+
   if(!user) {
     const hashPassword = await bcrypt.hash(id, 10);
 
@@ -75,11 +82,6 @@ const googleRedirect = async (req, res) => {
   await User.findByIdAndUpdate(newUser._id, { token });
   }
   
-  const payload = {
-      id: user._id,
-    };
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-    await User.findByIdAndUpdate(user._id, { token });
   return res.redirect(
     `${process.env.FRONTEND_URL}/login?access_token=${token}&email=${email}`
   )
