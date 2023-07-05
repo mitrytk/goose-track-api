@@ -56,14 +56,14 @@ const googleRedirect = async (req, res) => {
   const { email, name } = userData.data;
   const id = userData.data.id;
   const user = await User.findOne({email});
+  let token = '';
  
   if(user) {
     const payload = {
         id: user._id,
       };
-      const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+      token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
       await User.findByIdAndUpdate(user._id, { token });
-      return token;
     }
 
   if(!user) {
@@ -80,9 +80,8 @@ const googleRedirect = async (req, res) => {
     const payload = {
     id: user._id,
     };
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+    token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
     await User.findByIdAndUpdate(newUser._id, { token });
-    return token;
   }
   
   return res.redirect(
